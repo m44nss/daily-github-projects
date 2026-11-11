@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compare product prices by unit to find the better value.">
+  <title>UnitWise — Compare the real price</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="UnitWise home"><span class="brand-mark">U</span> unitwise</a>
+      <span class="top-note">A tiny tool for smarter shopping</span>
+    </header>
+    <section class="intro">
+      <p class="eyebrow">COMPARE BEFORE YOU BUY</p>
+      <h1>Which pack is <span>actually cheaper?</span></h1>
+      <p class="subhead">Compare products by price per gram, litre, or piece — not by package price.</p>
+    </section>
+    <section class="workspace" aria-label="Product comparison">
+      <form id="product-form" class="form-card">
+        <div class="section-heading"><div><p class="eyebrow">ADD A PRODUCT</p><h2>Product details</h2></div><span class="step">01 / 02</span></div>
+        <label>Product name<input id="product-name" name="name" placeholder="e.g. Family-size cereal" maxlength="48" required></label>
+        <div class="input-grid">
+          <label>Pack price <span class="input-wrap"><span class="prefix">₹</span><input id="product-price" name="price" type="number" min="0.01" step="0.01" placeholder="120" required></span></label>
+          <label>Pack quantity <input id="product-quantity" name="quantity" type="number" min="0.001" step="any" placeholder="500" required></label>
+        </div>
+        <label>Quantity unit<select id="product-unit" name="unit"><option value="g">Grams (g)</option><option value="kg">Kilograms (kg)</option><option value="ml">Millilitres (ml)</option><option value="l">Litres (L)</option><option value="pcs">Pieces (pcs)</option></select></label>
+        <button class="primary" type="submit">Add to comparison <span aria-hidden="true">↗</span></button>
+        <p class="form-hint">Only compare products with compatible units (weight, volume, or pieces).</p>
+      </form>
+      <section class="results-card">
+        <div class="section-heading"><div><p class="eyebrow">YOUR SHORTLIST</p><h2>Best value first</h2></div><button id="clear-all" class="text-button" type="button">Clear all</button></div>
+        <div id="summary" class="summary"><span class="summary-icon">✦</span><span>Add two products to see which offers better value.</span></div>
+        <div id="product-list" class="product-list" aria-live="polite">
+          <div class="empty-state"><span class="empty-icon">＋</span><strong>Your comparison starts here</strong><span>Add products using the form. Try the examples below.</span></div>
+        </div>
+        <div class="demo-row"><span>Need a quick start?</span><button id="load-demo" class="demo-button" type="button">Load sample products</button></div>
+      </section>
+    </section>
+    <footer><span>UnitWise</span><span>Simple math. Better choices.</span></footer>
+  </main>
+</body>
+</html>
