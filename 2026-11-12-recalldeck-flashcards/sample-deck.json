@@ -1,0 +1,50 @@
+[
+  {
+    "front": "What does HTML stand for?",
+    "back": "HyperText Markup Language. It gives web pages their structure.",
+    "category": "Web basics",
+    "mastered": false
+  },
+  {
+    "front": "What is the main job of CSS?",
+    "back": "CSS controls how HTML content looks: layout, colours, spacing and typography.",
+    "category": "Web basics",
+    "mastered": false
+  },
+  {
+    "front": "Which JavaScript method converts JSON text into an object?",
+    "back": "JSON.parse(). It reads a JSON string and returns the corresponding JavaScript value.",
+    "category": "JavaScript",
+    "mastered": false
+  },
+  {
+    "front": "What does localStorage do?",
+    "back": "It stores small key-value string data in the browser so it remains after the page is closed.",
+    "category": "Browser APIs",
+    "mastered": false
+  },
+  {
+    "front": "What is the purpose of addEventListener()?",
+    "back": "It registers a function that runs when a chosen event, such as click or input, happens.",
+    "category": "JavaScript",
+    "mastered": false
+  },
+  {
+    "front": "What is a responsive web design?",
+    "back": "A design that adapts its layout and content to different screen sizes and devices.",
+    "category": "Web design",
+    "mastered": false
+  },
+  {
+    "front": "What does the CSS box model describe?",
+    "back": "The content, padding, border and margin that determine an element's total layout size.",
+    "category": "CSS",
+    "mastered": false
+  },
+  {
+    "front": "What is the difference between == and === in JavaScript?",
+    "back": "== allows type conversion before comparison. === compares both value and type without coercion.",
+    "category": "JavaScript",
+    "mastered": false
+  }
+]
