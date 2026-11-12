@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create flashcards, build a study deck and practise with RecallDeck.">
+  <meta name="theme-color" content="#f4f3ed">
+  <title>RecallDeck — Make learning stick</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="RecallDeck home">
+        <span class="brand-mark">R<span>.</span></span>
+        <span>recall<span class="brand-light">deck</span></span>
+      </a>
+      <div class="top-actions">
+        <button class="button quiet" id="importBtn" type="button">Import deck</button>
+        <button class="button quiet" id="exportBtn" type="button">Export JSON</button>
+        <button class="button dark" id="addCardBtn" type="button"><span>＋</span> New card</button>
+        <input id="importInput" type="file" accept=".json,application/json" hidden>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div>
+          <p class="kicker">YOUR PERSONAL STUDY SPACE</p>
+          <h1>Small sessions.<br><em>Stronger recall.</em></h1>
+          <p class="intro-copy">Turn what you're learning into cards, then practise until it sticks.</p>
+        </div>
+        <div class="intro-stamp"><span>STUDY</span><strong>01</strong><span>REPEAT</span></div>
+      </section>
+
+      <section class="stats-grid" aria-label="Deck statistics">
+        <article class="stat-card"><span class="stat-label">TOTAL CARDS</span><strong id="totalCount">0</strong><span class="stat-foot">in your deck</span></article>
+        <article class="stat-card"><span class="stat-label">MASTERED</span><strong id="masteredCount">0</strong><span class="stat-foot">you've got these</span></article>
+        <article class="stat-card"><span class="stat-label">TO REVIEW</span><strong id="reviewCount">0</strong><span class="stat-foot">keep them fresh</span></article>
+        <article class="stat-card progress-stat"><span class="stat-label">DECK PROGRESS</span><strong id="progressPercent">0%</strong><div class="mini-track"><span id="progressBar"></span></div><span class="stat-foot">mastered so far</span></article>
+      </section>
+
+      <nav class="view-tabs" aria-label="Workspace views">
+        <button class="tab active" data-view="library" type="button">01 <span>My cards</span></button>
+        <button class="tab" data-view="study" type="button">02 <span>Study mode</span></button>
+        <span class="tab-note">LEARN AT YOUR PACE</span>
+      </nav>
+
+      <section id="libraryView" class="view">
+        <div class="section-heading">
+          <div><p class="kicker">THE COLLECTION</p><h2>Your study deck</h2></div>
+          <button class="button outline" id="studyNowBtn" type="button">Start a session <span>↗</span></button>
+        </div>
+
+        <div class="library-toolbar">
+          <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Find a card or topic..." aria-label="Search cards"></label>
+          <select id="statusFilter" aria-label="Filter cards">
+            <option value="all">All cards</option>
+            <option value="review">To review</option>
+            <option value="mastered">Mastered</option>
+          </select>
+          <span id="visibleLabel" class="visible-label">0 cards</span>
+        </div>
+
+        <div id="cardList" class="card-grid"></div>
+        <div id="emptyState" class="empty-state hidden">
+          <div class="empty-symbol">✳</div>
+          <h3>Your deck starts here.</h3>
+          <p>Add your first flashcard or load a small sample deck to explore RecallDeck.</p>
+          <div class="empty-actions">
+            <button class="button dark" id="emptyAddBtn" type="button">Create a card</button>
+            <button class="button outline" id="loadSampleBtn" type="button">Load sample deck</button>
+          </div>
+        </div>
+        <p id="noResults" class="no-results hidden">No cards match that search. Try another word or filter.</p>
+      </section>
+
+      <section id="studyView" class="view hidden">
+        <div class="section-heading">
+          <div><p class="kicker">FOCUS TIME</p><h2>Study mode</h2></div>
+          <button class="button outline" id="shuffleBtn" type="button">Shuffle cards ↝</button>
+        </div>
+
+        <div id="studyWelcome" class="study-message">
+          <div class="empty-symbol">✳</div>
+          <h3>Ready to test your memory?</h3>
+          <p>Read the prompt, think of your answer, then flip the card to check.</p>
+          <button class="button dark" id="beginStudyBtn" type="button">Begin studying <span>→</span></button>
+        </div>
+
+        <div id="studyStage" class="study-stage hidden">
+          <div class="study-meta">
+            <span id="studyPosition">CARD 1 OF 1</span>
+            <span id="studyCategory">GENERAL</span>
+          </div>
+          <div class="study-progress"><span id="studyProgress"></span></div>
+
+          <button class="study-card" id="studyCard" type="button" aria-label="Flip flashcard" aria-pressed="false">
+            <span class="flip-inner" id="flipInner">
+              <span class="card-face front-face">
+                <span class="face-label">QUESTION</span>
+                <strong id="studyPrompt"></strong>
+                <span class="flip-hint">TAP OR PRESS SPACE TO REVEAL ↻</span>
+              </span>
+              <span class="card-face back-face">
+                <span class="face-label">ANSWER</span>
+                <strong id="studyAnswer"></strong>
+                <span class="flip-hint">YOU'VE GOT THIS</span>
+              </span>
+            </span>
+          </button>
+
+          <div class="study-controls">
+            <button class="button outline" id="previousBtn" type="button">← Previous</button>
+            <div class="answer-actions">
+              <button class="button review-button" data-result="review" type="button">↻ Review again</button>
+              <button class="button mastered-button" data-result="mastered" type="button">✓ Got it</button>
+            </div>
+            <button class="button outline" id="nextBtn" type="button">Next →</button>
+          </div>
+          <p class="keyboard-note">TIP: SPACE flips · ← → moves between cards</p>
+        </div>
+
+        <div id="studyComplete" class="study-message hidden">
+          <div class="empty-symbol">✦</div>
+          <h3>Session complete.</h3>
+          <p>You made it through this deck. A little practice goes a long way.</p>
+          <button class="button dark" id="studyAgainBtn" type="button">Study again <span>↻</span></button>
+        </div>
+      </section>
+    </main>
+
+    <footer><span>RECALLDECK</span><span>Made for curious minds · Your cards stay in this browser</span></footer>
+  </div>
+
+  <dialog id="cardDialog" class="card-dialog">
+    <form id="cardForm">
+      <div class="dialog-heading">
+        <div><p class="kicker">BUILD YOUR DECK</p><h2 id="dialogTitle">Create a card</h2></div>
+        <button class="close-button" id="closeDialogBtn" type="button" aria-label="Close">×</button>
+      </div>
+      <label class="field-label" for="frontInput">FRONT · QUESTION OR PROMPT</label>
+      <textarea id="frontInput" rows="3" maxlength="240" placeholder="e.g. What does CSS stand for?" required></textarea>
+      <label class="field-label" for="backInput">BACK · YOUR ANSWER</label>
+      <textarea id="backInput" rows="4" maxlength="600" placeholder="Write a short, memorable answer..." required></textarea>
+      <label class="field-label" for="categoryInput">TOPIC (OPTIONAL)</label>
+      <input id="categoryInput" type="text" maxlength="32" placeholder="e.g. Web development">
+      <div class="dialog-actions">
+        <button class="button outline" id="cancelDialogBtn" type="button">Cancel</button>
+        <button class="button dark" id="saveCardBtn" type="submit">Save card <span>→</span></button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
