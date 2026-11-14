@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f3f4ee">
+<meta name="description" content="Resize multiple images privately in your browser.">
+<title>PixelPress — Batch Image Resizer</title>
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<div class="app-shell">
+<header class="topbar">
+<a class="brand" href="#"><span class="brand-mark">P<span>×</span></span><span>pixel<span class="brand-light">press</span></span></a>
+<div class="topbar-note"><span class="privacy-dot"></span> PRIVATE · RUNS IN YOUR BROWSER</div>
+</header>
+<main>
+<section class="hero">
+<div><p class="eyebrow">A SMALL TOOL FOR BIG IMAGE BATCHES</p><h1>Less weight.<br><em>Same picture.</em></h1>
+<p class="hero-description">Resize a whole folder's worth of images in one go. Set the dimensions, pick a format, preview the result and download — without uploading your files anywhere.</p></div>
+<div class="hero-stamp" aria-hidden="true"><span>LOCAL</span><strong>01</strong><span>ONLY</span></div>
+</section>
+<section class="workspace" aria-label="Image resizing workspace">
+<aside class="settings-panel">
+<div class="panel-heading"><div><p class="eyebrow">01 / OUTPUT SETTINGS</p><h2>Make it fit.</h2></div><span class="step-chip">SETUP</span></div>
+<div class="dimension-grid">
+<label class="field"><span>MAX WIDTH <small>PX</small></span><input id="maxWidth" type="number" min="1" max="12000" value="1600"></label>
+<label class="field"><span>MAX HEIGHT <small>PX</small></span><input id="maxHeight" type="number" min="1" max="12000" value="1600"></label>
+</div>
+<p class="field-hint">Images keep their original proportions and fit inside these limits.</p>
+<label class="field select-field"><span>OUTPUT FORMAT</span><select id="outputFormat">
+<option value="image/webp">WebP — smaller files</option><option value="image/jpeg">JPEG — widely supported</option><option value="image/png">PNG — lossless</option>
+</select></label>
+<div class="quality-wrap" id="qualityWrap">
+<div class="quality-heading"><label for="quality">IMAGE QUALITY</label><output id="qualityValue" for="quality">82%</output></div>
+<input id="quality" type="range" min="10" max="100" value="82"><div class="range-labels"><span>Smaller file</span><span>Higher detail</span></div>
+</div>
+<div class="settings-note"><span class="note-icon">↗</span><p><strong>Good to know</strong> PNG ignores the quality slider. WebP and JPEG use it to balance size and detail.</p></div>
+<button class="primary-button" id="processButton" type="button" disabled><span>Resize all images</span><span>→</span></button>
+<p class="privacy-caption">Your images never leave this device.</p>
+</aside>
+<section class="queue-panel">
+<div class="queue-heading"><div><p class="eyebrow">02 / YOUR IMAGE QUEUE</p><h2>Ready when you are.</h2></div><button class="text-button" id="clearButton" type="button" disabled>Clear all</button></div>
+<label class="dropzone" id="dropzone" for="fileInput" tabindex="0">
+<input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" multiple hidden>
+<span class="upload-icon">↑</span><strong>Drop images here</strong><span>or <u>browse files</u> from your device</span><small>PNG · JPG · WEBP · GIF · BMP</small>
+</label>
+<div class="queue-summary"><span id="queueCount">0 IMAGES ADDED</span><span id="queueSize">0 B ORIGINAL SIZE</span></div>
+<div class="image-list" id="imageList" aria-live="polite"></div>
+<div class="empty-queue" id="emptyQueue"><div class="empty-art"><span>▧</span><span>▧</span><span>▧</span></div><strong>Your images will show up here.</strong><p>Add two or more images to see how batch resizing works.</p></div>
+<div class="result-bar hidden" id="resultBar"><div><span class="result-label">BATCH RESULT</span><strong id="savedSummary">Ready to resize</strong><small id="resultDetails">Your results will appear here.</small></div><button class="download-all-button" id="downloadAllButton" type="button" disabled>Download ready files ↓</button></div>
+</section>
+</section>
+</main>
+<footer><strong>PIXELPRESS</strong><span>Resize locally. Keep originals. Stay in control.</span><span>NO SERVER · NO SIGN-UP</span></footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body></html>
