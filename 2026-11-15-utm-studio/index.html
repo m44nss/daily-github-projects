@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f4f3ee"><meta name="description" content="Build, preview, save and export UTM campaign URLs.">
+<title>UTM Studio — Campaign Link Builder</title><link rel="stylesheet" href="styles.css">
+<script type="module" src="app.js"></script></head>
+<body><div class="shell">
+<header class="topbar"><a class="brand" href="#"><span class="brand-icon">u<span>↗</span></span><span>utm<span class="brand-muted">studio</span></span></a><div class="privacy"><span></span> YOUR CAMPAIGNS STAY IN THIS BROWSER</div></header>
+<main>
+<section class="hero"><div><p class="eyebrow">CAMPAIGN LINKS, WITHOUT THE SPREADSHEET CHAOS</p><h1>Know where<br><em>every click</em> came from.</h1><p class="intro">Build consistent UTM links for your marketing campaigns. Preview the URL, save your links and export your list — all in one tidy workspace.</p></div><div class="hero-mark"><span>TRACK</span><b>↗</b><span>BETTER</span></div></section>
+<section class="layout">
+<section class="panel builder"><div class="section-head"><div><p class="eyebrow">01 / BUILD A LINK</p><h2>Campaign details</h2></div><span class="step">BUILDER</span></div>
+<form id="utmForm" novalidate>
+<label class="field full"><span>DESTINATION URL <b>REQUIRED</b></span><input id="website" type="url" placeholder="https://example.com/product" required><small>Paste the landing page. Existing query parameters are kept.</small></label>
+<div class="field-grid">
+<label class="field"><span>CAMPAIGN SOURCE <b>REQUIRED</b></span><input id="source" placeholder="google, newsletter, instagram" required><small>Who sends the traffic?</small></label>
+<label class="field"><span>CAMPAIGN MEDIUM <b>REQUIRED</b></span><input id="medium" placeholder="cpc, email, social" required><small>What type of channel?</small></label>
+<label class="field"><span>CAMPAIGN NAME <b>REQUIRED</b></span><input id="campaign" placeholder="summer_launch" required><small>Which campaign?</small></label>
+<label class="field"><span>CAMPAIGN TERM <i>OPTIONAL</i></span><input id="term" placeholder="running shoes"><small>Often used for paid keywords.</small></label>
+<label class="field full"><span>CAMPAIGN CONTENT <i>OPTIONAL</i></span><input id="content" placeholder="hero_banner, footer_link"><small>Differentiate ads or link placements.</small></label>
+</div>
+<div class="form-actions"><button class="button button-dark" type="submit"><span>Save campaign link</span><b>↗</b></button><button class="button button-quiet" id="resetButton" type="button">Reset fields</button></div><p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+</form></section>
+<aside class="side-column">
+<section class="panel preview-panel"><div class="section-head"><div><p class="eyebrow">02 / LIVE PREVIEW</p><h2>Your tagged URL</h2></div><span class="live-dot">LIVE</span></div>
+<div class="url-preview" id="urlPreview">Your campaign URL will appear here as you fill in the details.</div><div class="preview-meta"><span id="parameterCount">0 PARAMETERS</span><span id="urlLength">0 CHARACTERS</span></div>
+<button class="button button-green copy-button" id="copyButton" type="button" disabled><span>Copy URL</span><b>⧉</b></button><p class="preview-note">Only filled fields are added. Existing query parameters and URL fragments are preserved.</p></section>
+<section class="panel guide-panel"><p class="eyebrow">QUICK REFERENCE</p><h3>Keep naming consistent.</h3>
+<div class="guide-row"><code>utm_source</code><span>Platform or sender</span></div><div class="guide-row"><code>utm_medium</code><span>Marketing channel</span></div><div class="guide-row"><code>utm_campaign</code><span>Campaign identifier</span></div><div class="guide-row"><code>utm_term</code><span>Paid keyword</span></div><div class="guide-row"><code>utm_content</code><span>Creative or placement</span></div></section>
+</aside></section>
+<section class="panel library-panel"><div class="library-head"><div><p class="eyebrow">03 / YOUR LINK LIBRARY</p><h2>Saved campaigns <span id="savedCount">0</span></h2></div><div class="library-actions"><button class="button button-outline" id="exportButton" type="button" disabled>Export CSV ↓</button><button class="button button-quiet" id="clearLibraryButton" type="button" disabled>Clear library</button></div></div>
+<div class="table-wrap"><table><thead><tr><th>CAMPAIGN</th><th>SOURCE / MEDIUM</th><th>DESTINATION</th><th>CREATED</th><th>ACTIONS</th></tr></thead><tbody id="savedLinks"><tr class="empty-row"><td colspan="5">No saved links yet. Build your first campaign above.</td></tr></tbody></table></div></section>
+</main><footer><strong>UTM STUDIO</strong><span>Clear tags. Cleaner reporting.</span><span>LOCAL STORAGE · NO ACCOUNT</span></footer></div><div class="toast" id="toast" role="status" aria-live="polite"></div></body></html>
