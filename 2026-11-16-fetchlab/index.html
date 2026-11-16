@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101a2b">
+<meta name="description" content="A beginner-friendly browser API request tester.">
+<title>FetchLab — API Request Tester</title>
+<style>
+:root{color-scheme:dark;font:14px system-ui,sans-serif;--bg:#101a2b;--card:#19283d;--line:#30435b;--muted:#91a2b7;--mint:#9be3c2}
+*{box-sizing:border-box}body{margin:0;min-width:320px;background:radial-gradient(circle at 80% 0,#253d55,transparent 35%),var(--bg);color:#edf3f8}
+main{width:min(1120px,calc(100% - 32px));margin:auto}.top{height:68px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff18}
+.brand{font-weight:800;font-size:19px;letter-spacing:-1px}.brand b{color:var(--mint)}.local{font:10px ui-monospace,monospace;color:#9aafc1}
+.hero{padding:38px 0 26px}.eyebrow{margin:0 0 8px;color:#83a9a4;font:10px ui-monospace,monospace;letter-spacing:1.3px}
+h1{margin:0;font-size:clamp(34px,5vw,54px);line-height:1.06;letter-spacing:-2px}h1 em{color:var(--mint);font-style:normal}.intro{max-width:590px;color:var(--muted);font-size:13px;line-height:1.7}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{min-width:0;padding:20px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(145deg,#1c2d44,#17243a);box-shadow:0 12px 35px #050b1425}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}.card h2{margin:0;font-size:18px;letter-spacing:-.5px}.tag{padding:5px 7px;border:1px solid #40536b;border-radius:5px;color:#9db1c5;font:9px ui-monospace,monospace}
+.row{display:flex;gap:8px}.method{width:90px;flex-shrink:0}.field,select,textarea{width:100%;min-width:0;border:1px solid #3b5069;border-radius:8px;background:#101c2e;color:#eaf1f7;padding:11px;font:12px ui-monospace,monospace;outline:0}.field:focus,select:focus,textarea:focus{border-color:#83c7ac;box-shadow:0 0 0 3px #9be3c21c}.url{flex:1}.btn{border:0;border-radius:8px;padding:10px 14px;background:var(--mint);color:#142b2b;font-weight:750;font-size:12px}.btn:hover{background:#b7f0d4}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{border:1px solid #40536b;background:#24364d;color:#dce8f2}.btn.cancel{background:#653a48;color:#ffe0e3}
+label{display:block;margin:15px 0 7px;color:#a9bacb;font-size:11px;font-weight:650}.hint{margin:6px 0 0;color:#8093aa;font-size:10px;line-height:1.5}textarea{height:105px;resize:vertical;line-height:1.55}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.samples{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px;padding-top:13px;border-top:1px solid var(--line)}.samples span{width:100%;color:#8094a9;font:9px ui-monospace,monospace;letter-spacing:1px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:15px}.metric{padding:10px;border:1px solid #30435b;border-radius:8px;background:#142136}.metric small{display:block;color:#8093aa;font:9px ui-monospace,monospace}.metric strong{display:block;margin-top:5px;font-size:14px}.good{color:var(--mint)}.bad{color:#ffadb6}
+.tabs{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line)}.tab{position:relative;padding:0 0 10px;border:0;background:none;color:#91a2b7;font-size:11px}.tab.active{color:#eff8f5;font-weight:700}.tab.active:after{position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--mint);content:""}.copy{margin-left:auto;margin-bottom:7px;padding:6px 9px;border:1px solid #40536b;border-radius:6px;background:#23364c;color:#cce7db;font-size:10px}
+.output{min-height:225px;max-height:420px;overflow:auto;margin-top:12px;padding:13px;border:1px solid #30435b;border-radius:8px;background:#101c2e;color:#cbe7d9;font:11px/1.7 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.empty{min-height:225px;display:grid;place-content:center;text-align:center;color:#9bacc0}.empty b{color:#e5eef5}.empty p{max-width:260px;font-size:11px;line-height:1.6}
+.history{margin-top:14px}.history-list{display:grid;gap:7px;margin-top:12px}.history-item{display:grid;grid-template-columns:55px minmax(0,1fr) auto auto;gap:9px;align-items:center;padding:9px;border:1px solid #30435b;border-radius:8px;background:#142136}.history-item code{overflow:hidden;color:#c6d5e2;text-overflow:ellipsis;white-space:nowrap}.history-item small{color:var(--mint);font:10px ui-monospace,monospace}.history-item button{padding:5px 8px;border:1px solid #40536b;border-radius:5px;background:#24364d;color:#cfe8dc;font-size:10px}.empty-history{padding:15px;border:1px dashed #40536b;border-radius:8px;color:#91a2b7;text-align:center;font-size:11px}
+.notice{margin:14px 0;padding:12px 14px;border:1px solid #3a4b60;border-radius:8px;background:#19283d;color:#a7b8ca;font-size:10px;line-height:1.6}.notice b{color:#e4edf4}
+footer{display:flex;justify-content:space-between;gap:10px;padding:20px 0 26px;color:#74879d;font:9px ui-monospace,monospace;letter-spacing:.5px}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,12px);padding:10px 14px;border:1px solid #4b7669;border-radius:8px;background:#203b38;color:#d7f5e7;font-size:11px;opacity:0;transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.hero{padding-top:29px}}@media(max-width:500px){main{width:calc(100% - 22px)}.card{padding:15px}.row{display:grid;grid-template-columns:82px minmax(0,1fr)}.row .btn{grid-column:1/-1}.local{font-size:8px}.history-item{grid-template-columns:45px minmax(0,1fr) auto}.history-item small{display:none}footer{flex-wrap:wrap}footer span:nth-child(2){flex-basis:100%;order:3}}
+</style>
+<script type="module" src="app.js"></script>
+</head>
+<body><main>
+<header class="top"><div class="brand">fetch<b>lab</b></div><div class="local">● LOCAL BROWSER WORKSPACE</div></header>
+<section class="hero"><p class="eyebrow">A FRIENDLY WORKBENCH FOR HTTP</p><h1>Make the request.<br><em>Understand the response.</em></h1><p class="intro">Test an API, inspect what comes back, and replay recent experiments. No account or backend required.</p></section>
+<section class="grid">
+<section class="card"><div class="card-head"><div><p class="eyebrow">01 / REQUEST</p><h2>Build a request</h2></div><span class="tag">HTTP CLIENT</span></div>
+<form id="requestForm"><div class="row"><select id="method" class="method" aria-label="HTTP method"><option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option></select><input id="url" class="field url" type="url" placeholder="https://jsonplaceholder.typicode.com/posts/1" required></div>
+<label for="headers">Request headers (JSON object)</label><textarea id="headers" spellcheck="false">{
+  "Accept": "application/json"
+}</textarea><p class="hint">Example: {"Authorization":"Bearer YOUR_TOKEN"}. Do not use real secrets on public demos.</p>
+<label for="body">Request body (JSON)</label><textarea id="body" spellcheck="false">{
+  "title": "Learning Fetch API",
+  "body": "Hello from FetchLab",
+  "userId": 1
+}</textarea><p class="hint">Used with POST, PUT and PATCH. Content-Type is added automatically if missing.</p>
+<div class="actions"><button class="btn" id="send" type="submit">Send request ↗</button><button class="btn cancel" id="cancel" type="button" hidden>Cancel</button><button class="btn secondary" id="clear" type="button">Reset</button></div><p class="hint" id="message" role="status" aria-live="polite"></p></form>
+<div class="samples"><span>TRY A SAMPLE</span><button class="btn secondary" data-demo="get" type="button">GET · Fetch a post</button><button class="btn secondary" data-demo="post" type="button">POST · Create a post</button></div></section>
+<section class="card"><div class="card-head"><div><p class="eyebrow">02 / RESPONSE</p><h2>What came back?</h2></div><span class="tag" id="state">WAITING</span></div>
+<div class="summary"><div class="metric"><small>STATUS</small><strong id="status">—</strong></div><div class="metric"><small>TIME</small><strong id="time">—</strong></div><div class="metric"><small>SIZE</small><strong id="size">—</strong></div></div>
+<div class="tabs"><button class="tab active" data-view="body" type="button">Body</button><button class="tab" data-view="headers" type="button">Headers</button><button class="copy" id="copy" type="button" disabled>Copy response ⧉</button></div>
+<div id="empty" class="empty"><div><b>{ }</b><p>Your response appears here. Load a sample request or enter an API URL and press Send.</p></div></div><pre id="output" class="output" hidden></pre>
+<p class="hint" id="responseType">NO RESPONSE</p></section></section>
+<section class="card history"><div class="card-head"><div><p class="eyebrow">03 / RECENT ACTIVITY</p><h2>Request history <span id="count" class="tag">0</span></h2></div><button class="btn secondary" id="clearHistory" type="button" disabled>Clear history</button></div><div class="history-list" id="history"><div class="empty-history">Your recent requests will be saved in this browser.</div></div></section>
+<aside class="notice"><b>Browser security / CORS:</b> Some APIs block requests from browser pages. If you see a network error, the server may not allow cross-origin requests. Use an API that supports CORS or your own local test API; do not disable browser security.</aside>
+<footer><strong>FETCHLAB</strong><span>Small experiments. Better API instincts.</span><span>LOCAL HISTORY · NO ACCOUNT</span></footer>
+</main><div class="toast" id="toast" role="status" aria-live="polite"></div></body></html>
