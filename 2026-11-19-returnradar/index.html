@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111b24"><meta name="description" content="Track purchases and return deadlines in one private dashboard.">
+<title>ReturnRadar — Purchase Return Tracker</title>
+<link rel="stylesheet" href="styles.css"><script type="module" src="app.js"></script>
+</head>
+<body>
+<div class="shell">
+<header><a class="brand" href="#"><span class="mark">R</span>return<span>radar</span></a><button class="ghost" id="demo">↻ Restore demo</button></header>
+<section class="hero"><div><p class="eyebrow">YOUR PURCHASE CONTROL ROOM</p><h1>Keep the good stuff.<br><em>Return the regrets.</em></h1><p>Track return windows, spot deadlines and make the call before time does it for you.</p></div><div class="radar" aria-hidden="true"><i></i><b>R</b></div></section>
+<section class="stats"><article><small>ACTIVE</small><strong id="activeCount">0</strong><span>purchases</span></article><article class="soon"><small>DUE SOON</small><strong id="soonCount">0</strong><span>within 5 days</span></article><article class="late"><small>OVERDUE</small><strong id="lateCount">0</strong><span>window closed</span></article><article class="done"><small>RETURNED</small><strong id="returnedCount">0</strong><span>sent back</span></article></section>
+<main>
+<aside class="panel"><p class="eyebrow">01 / LOG IT</p><h2 id="formTitle">Add a purchase</h2>
+<form id="purchaseForm">
+<label>ITEM NAME<input id="name" maxlength="70" placeholder="Wireless headphones" required></label>
+<div class="two"><label>STORE<input id="store" maxlength="50" placeholder="Shop name"></label><label>CATEGORY<select id="category"><option>Electronics</option><option>Fashion</option><option>Home</option><option>Sports</option><option>Other</option></select></label></div>
+<div class="two"><label>PURCHASE DATE<input id="date" type="date" required></label><label>RETURN WINDOW (DAYS)<input id="days" type="number" min="1" max="365" value="30" required></label></div>
+<label>PRICE · OPTIONAL<input id="price" type="number" min="0" step="0.01" placeholder="0.00"></label>
+<label>NOTES · OPTIONAL<textarea id="notes" rows="2" maxlength="160" placeholder="Order number, reason to return…"></textarea></label>
+<div class="due">RETURN BY <strong id="dueDate">Choose a purchase date</strong></div>
+<button class="primary" id="save">Add to radar ↗</button><button class="ghost cancel" id="cancel" type="button" hidden>Cancel edit</button>
+</form><p class="hint">Calculated as purchase date + return-window days. Always confirm the retailer's actual policy.</p></aside>
+<section class="panel list-panel"><div class="list-head"><div><p class="eyebrow">02 / WATCHLIST</p><h2>Your purchases <span id="total">0</span></h2></div><div class="exports"><button class="ghost" id="backup">↓ JSON</button><button class="ghost" id="csv">↗ CSV</button></div></div>
+<div class="tools"><input id="search" type="search" placeholder="Search item or store…"><select id="sort"><option value="deadline">Soonest deadline</option><option value="newest">Recently added</option><option value="price">Highest price</option></select></div>
+<nav id="filters"><button class="selected" data-filter="all">All</button><button data-filter="soon">Due soon</button><button data-filter="active">Active</button><button data-filter="overdue">Overdue</button><button data-filter="returned">Returned</button></nav>
+<div id="list" aria-live="polite"></div><footer><span id="summary">0 purchases</span><span>● SAVED ON THIS DEVICE</span></footer></section>
+</main>
+<footer class="bottom"><span>RETURNRADAR</span><span>YOUR DATA STAYS ON THIS DEVICE.</span></footer>
+</div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body></html>
