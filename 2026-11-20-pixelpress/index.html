@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Optimize, resize and convert images privately in your browser with PixelPress.">
+  <title>PixelPress — Image Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="PixelPress home">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span>pixel<span class="brand-accent">press</span></span>
+      </a>
+      <div class="privacy-pill"><span class="privacy-dot"></span> Your images stay on this device</div>
+      <a class="top-link" href="#how-it-works">How it works <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> LIGHTER FILES. SHARPER WEB.</div>
+          <h1>Make your images<br><span>work smarter.</span></h1>
+          <p>Resize, compress and convert images in a few clicks. No uploads, no accounts, no mystery servers.</p>
+          <div class="hero-points">
+            <span><b>01</b> Batch processing</span>
+            <span><b>02</b> Quality control</span>
+            <span><b>03</b> Private by design</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-orbit orbit-one"></div>
+          <div class="art-orbit orbit-two"></div>
+          <div class="art-card art-card-back"><span class="art-spark">✳</span><span class="art-caption">ORIGINAL</span></div>
+          <div class="art-card art-card-front"><div class="art-image"><span>✦</span></div><div class="art-card-foot"><span>PIXELPRESS</span><strong>−68%</strong></div></div>
+          <div class="art-bubble">WEBP<br><strong>READY</strong></div>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Image optimization workspace">
+        <div class="workspace-heading">
+          <div><span class="section-kicker">THE WORKSPACE</span><h2>Optimize your images</h2></div>
+          <div class="queue-count" id="queue-count">0 images queued</div>
+        </div>
+
+        <div class="workspace-grid">
+          <div class="main-column">
+            <div class="drop-zone" id="drop-zone" tabindex="0" role="button" aria-label="Choose images or drop them here">
+              <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+              <div class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 16.5v2A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-2"/></svg></div>
+              <h3>Drop your images here</h3>
+              <p>or <button class="text-button" id="browse-button" type="button">browse files</button> from your device</p>
+              <div class="upload-meta"><span>JPG</span><span>PNG</span><span>WEBP</span><i>Up to 20 MB each</i></div>
+            </div>
+
+            <div class="queue-toolbar">
+              <div><h3>Your image queue</h3><p id="queue-subtitle">Add a few images to get started.</p></div>
+              <div class="toolbar-actions">
+                <button class="button button-quiet button-small" id="demo-button" type="button">＋ Try demo images</button>
+                <button class="button button-quiet button-small" id="clear-button" type="button" disabled>Clear all</button>
+              </div>
+            </div>
+
+            <div class="image-list" id="image-list" aria-live="polite">
+              <div class="empty-queue" id="empty-queue">
+                <div class="empty-icon">▧</div>
+                <strong>Your queue is looking a little empty</strong>
+                <span>Drop in images or load the demo set to see PixelPress in action.</span>
+              </div>
+            </div>
+
+            <div class="process-bar">
+              <div class="process-status" id="process-status"><span class="status-dot"></span><span>Ready when you are</span></div>
+              <button class="button button-primary" id="process-button" type="button" disabled>Optimize images <span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+
+          <aside class="settings-panel">
+            <div class="settings-header"><div class="settings-icon">⚙</div><div><h3>Output settings</h3><p>Fine-tune your results</p></div></div>
+
+            <div class="setting-group">
+              <div class="setting-label-row"><label for="format-select">Output format</label><span class="setting-hint">FILE TYPE</span></div>
+              <select id="format-select" class="select-control">
+                <option value="keep">Keep original format</option>
+                <option value="image/webp" selected>WebP — smallest for web</option>
+                <option value="image/jpeg">JPEG — widely supported</option>
+                <option value="image/png">PNG — lossless</option>
+              </select>
+              <p class="setting-help">WebP usually gives the best balance of size and quality.</p>
+            </div>
+
+            <div class="setting-group">
+              <div class="setting-label-row"><label for="quality-range">Image quality</label><output id="quality-value" for="quality-range">82%</output></div>
+              <input id="quality-range" class="range-control" type="range" min="10" max="100" step="1" value="82">
+              <div class="range-ends"><span>Smaller file</span><span>Sharper image</span></div>
+              <p class="setting-help">Quality affects JPEG and WebP. PNG stays lossless.</p>
+            </div>
+
+            <div class="setting-group">
+              <div class="setting-label-row"><label for="size-select">Maximum image edge</label><span class="setting-hint">RESIZE</span></div>
+              <select id="size-select" class="select-control">
+                <option value="0">Original dimensions</option>
+                <option value="2560">2560 px — large screens</option>
+                <option value="1920">1920 px — desktop</option>
+                <option value="1600" selected>1600 px — recommended</option>
+                <option value="1200">1200 px — standard web</option>
+                <option value="800">800 px — compact</option>
+                <option value="480">480 px — thumbnails</option>
+              </select>
+              <p class="setting-help">Images are scaled proportionally and never enlarged.</p>
+            </div>
+
+            <div class="settings-note"><span class="note-icon">✦</span><p><strong>Good to know</strong> Transparent pixels are kept for WebP and PNG. JPEG uses a white background.</p></div>
+            <div class="settings-footer"><span class="lock-icon">▣</span> Processing happens locally in your browser.</div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="results-strip" id="results-strip" hidden>
+        <div><span class="section-kicker">THE RESULTS</span><h2>Your images, optimized.</h2></div>
+        <div class="result-stats">
+          <div><span id="stat-count">0</span><small>Processed</small></div>
+          <div><span id="stat-saved">0 B</span><small>Space saved</small></div>
+          <div><span id="stat-percent">0%</span><small>Average reduction</small></div>
+        </div>
+      </section>
+
+      <section class="how-section" id="how-it-works">
+        <div><span class="section-kicker">SIMPLE BY DESIGN</span><h2>Three steps. That's it.</h2></div>
+        <div class="steps-grid">
+          <article class="step-card"><span>01</span><div class="step-icon">↥</div><h3>Add your images</h3><p>Choose one image or a whole batch. JPG, PNG and WebP are supported.</p></article>
+          <article class="step-card"><span>02</span><div class="step-icon">⌘</div><h3>Choose your settings</h3><p>Pick a format, adjust quality and set the maximum image dimensions.</p></article>
+          <article class="step-card"><span>03</span><div class="step-icon">↓</div><h3>Download the lighter files</h3><p>Compare the results, then save each optimized image to your device.</p></article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><a class="brand footer-brand" href="#top"><span class="brand-mark">P</span><span>pixel<span class="brand-accent">press</span></span></a><span>Built for lighter pages and happier pixels.</span><span>© 2026 PixelPress</span></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
